@@ -3,15 +3,7 @@
 % Last updated : 2019-04-17
 %%=========================================================================
 clc;clear;close all;
-randomSeedType  = 'fixed';    % 'shuffle' for random seed, 'fixed' for a fixed seed
-fixedSeedVal    = 1709546818;
-if(strcmp(randomSeedType,'fixed'))
-    Txstream            = RandStream('mt19937ar','Seed',fixedSeedVal);
-else
-    Txstream            = RandStream('mt19937ar','Seed','shuffle');
-end
-RandStream.setGlobalStream(Txstream);
-fprintf('Seed value is %d\n',Txstream.Seed);
+
 %% generation of random data with two prominant peaks
 hightMountain   = randi([10 20],1,1);
 mountains       = [1:hightMountain hightMountain-1:-1:hightMountain/2 hightMountain/2+1:hightMountain hightMountain-1:-1:1];
@@ -20,12 +12,12 @@ inputData       = awgn(inputData,-2);
 
 %% Smoothing the data
 movAvgFiltOrder = 16;
-smoothedData    = filter(ones(1,movAvgFiltOrder)/movAvgFiltOrder,1,inputData); 
+smoothedData    = filter(ones(1,movAvgFiltOrder)/movAvgFiltOrder,1,inputData);
 
 %% finding peaks from the smoothed curve
-[vals,pos]      = findpeaks(smoothedData);
-idx             = find(vals > mean([min(vals),max(vals)])); % removing peaks which are below the average, 
-                                                            % this is helpfull if some lower amplitude 
+[vals,pos]      = findpeaks(smoothedData,"DoubleSided");
+idx             = find(vals > mean([min(vals),max(vals)])); % removing peaks which are below the average,
+                                                            % this is helpfull if some lower amplitude
                                                             % peaks are caught at sides of the prominent peaks.
 
 peak_pos1       = pos(idx(1));    % farthest prominent peak on one side of valley

@@ -1,5 +1,4 @@
-spectrumVisualizer.m
-    - Plots frequency characteristics of the data
-    - basic working command -> spectrumVisualizer(inputData)
-    - options to enter sampling rate, FFT size, a title for the plot, color in the plot, windowing method available
+This repo contains standalone files that does somekind of signal processing operations.
+
+Names of the files are usualy selp explanatory to what it does and I have added some comments to every individual file as well
 

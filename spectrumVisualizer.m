@@ -1,10 +1,7 @@
 function [varargout] = spectrumVisualizer(data,fs,nfft,titl,colr,windw)
 %%=========================================================================
 % Synopsis     :   Plots the freq spectrum of data
-% Author       :   Sreekanth
-% Origin Date  :   09-June-2018
-% Version      :   0.5
-% Version Date :   27-Feb-2019
+% Last updated :   2024-11-13
 %%=========================================================================
 
 narginchk(1,6);

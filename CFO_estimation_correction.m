@@ -1,5 +1,5 @@
 %%==================================================================================
-% Synopsis     : CFO estimation and Correction Probabilistic characteristics of PAPR of a random signal
+% Synopsis     : CFO estimation and Correction
 %              : Transmitted FRame is formed by along with a Preamble and midamble
 % Last updated : 2021-05-11
 %%==================================================================================
@@ -62,4 +62,4 @@ CorrectedFrame  = rxbbFrame.* exp(2i*pi*([-cfo]/bbFs)*([0:length(passBandFrame)-
 %% Plots
 figure();
 plot(real(frame),'-r*');hold on;plot(real(rxbbFrame),'-bo');hold on;plot(real(CorrectedFrame),'-gd');
-legend('Tx Frame','Corrupted Frame','Correected Frame')
+legend('Tx Frame','CFO affected Frame','CFO corrected Frame')

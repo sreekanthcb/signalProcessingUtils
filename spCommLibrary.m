@@ -5,15 +5,16 @@
 
 function libHandle = spCommLibrary
 
-libHandle.bits2Msg              = @bits2Msg;
-libHandle.msg2Bits              = @msg2Bits;
-libHandle.RowCol_Interleaver    = @RowCol_Interleaver;
-libHandle.RowCol_DeInterleaver  = @RowCol_DeInterleaver;
-libHandle.scrambler             = @scrambler;
-libHandle.descrambler           = @descrambler;
-libHandle.spectrumVisualizer    = @spectrumVisualizer;
-libHandle.PolyPhaseInterpolator = @PolyPhaseInterpolator;
-libHandle.PolyPhaseDecimator    = @PolyPhaseDecimator;
+  libHandle.bits2Msg              = @bits2Msg;
+  libHandle.msg2Bits              = @msg2Bits;
+  libHandle.RowCol_Interleaver    = @RowCol_Interleaver;
+  libHandle.RowCol_DeInterleaver  = @RowCol_DeInterleaver;
+  libHandle.scrambler             = @scrambler;
+  libHandle.descrambler           = @descrambler;
+  libHandle.spectrumVisualizer    = @spectrumVisualizer;
+  libHandle.PolyPhaseInterpolator = @PolyPhaseInterpolator;
+  libHandle.PolyPhaseDecimator    = @PolyPhaseDecimator;
+  libHandle.findEVM               = @findEVM;
 
 end
 
@@ -83,6 +84,12 @@ for ii = 1:length(data_in)
     scrambler_state(2:end) = scrambler_state(1:end-1);
     scrambler_state(1) = data_in(ii);
 end
+
+end
+
+function [out] = findEVM(a,b)
+
+out = 10*log10(sum((a-b).^2));
 
 end
 

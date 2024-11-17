@@ -5,16 +5,18 @@
 
 function libHandle = spCommLibrary
 
-  libHandle.bits2Msg              = @bits2Msg;
-  libHandle.msg2Bits              = @msg2Bits;
-  libHandle.RowCol_Interleaver    = @RowCol_Interleaver;
-  libHandle.RowCol_DeInterleaver  = @RowCol_DeInterleaver;
-  libHandle.scrambler             = @scrambler;
-  libHandle.descrambler           = @descrambler;
-  libHandle.spectrumVisualizer    = @spectrumVisualizer;
-  libHandle.PolyPhaseInterpolator = @PolyPhaseInterpolator;
-  libHandle.PolyPhaseDecimator    = @PolyPhaseDecimator;
-  libHandle.findEVM               = @findEVM;
+  libHandle.bits2Msg                  = @bits2Msg;
+  libHandle.msg2Bits                  = @msg2Bits;
+  libHandle.RowCol_Interleaver        = @RowCol_Interleaver;
+  libHandle.RowCol_DeInterleaver      = @RowCol_DeInterleaver;
+  libHandle.turboLikeInterleaver      = @turboLikeInterleaver;
+  libHandle.turboLikeDeInterleaver    = @turboLikeDeInterleaver;
+  libHandle.scrambler                 = @scrambler;
+  libHandle.descrambler               = @descrambler;
+  libHandle.spectrumVisualizer        = @spectrumVisualizer;
+  libHandle.PolyPhaseInterpolator     = @PolyPhaseInterpolator;
+  libHandle.PolyPhaseDecimator        = @PolyPhaseDecimator;
+  libHandle.findEVM                   = @findEVM;
 
 end
 
@@ -246,4 +248,39 @@ for ii = 1:M
     out(ii,:) = filter(b(ii,:),1,inpt(ii,:));
 end
 final_out = sum(out);
+end
+
+function out = turboLikeInterleaver(inpt,p,q,j)
+
+inpt    = inpt(:).';
+k       = length(inpt);
+pattern = findPattern(k,p,q,j);
+
+out     = inpt(pattern);
+end
+
+function pattern = findPattern(k,p,q,j)
+pattern = 1:k;
+
+% source : 802.22 2011 document 9.6.2
+for itr = 1:j
+    for idx = 1:k
+        pattern(idx) = mod(k-p+idx+q*p*mod(-idx-p*pattern(idx),k),k);
+    end
+end
+
+pattern  = pattern + 1;
+
+end
+
+function out = turboLikeDeInterleaver(inpt,p,q,j)
+
+% source : 802.22 2011 document 9.6.2
+
+inpt    = inpt(:).';
+k       = length(inpt);
+pattern = findPattern(k,p,q,j);
+
+[~,idx] = sort(pattern);
+out     = inpt(idx);
 end

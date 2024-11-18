@@ -1,6 +1,6 @@
 %%==================================================================================
 % Synopsis     : Signal Processing and Communication utilities Library
-% Last updated : 2024-11-16
+% Last updated : 2024-11-18
 %%==================================================================================
 
 function libHandle = spCommLibrary
@@ -17,8 +17,8 @@ function libHandle = spCommLibrary
   libHandle.PolyPhaseInterpolator     = @PolyPhaseInterpolator;
   libHandle.PolyPhaseDecimator        = @PolyPhaseDecimator;
   libHandle.findEVM                   = @findEVM;
-  libHandle.bits2Symbols              = @bits2Symbols;
-  libHandle.symbols2Bits              = @symbols2Bits;
+  libHandle.bits2ModSymbols           = @bits2ModSymbols;
+  libHandle.modSymbols2Bits           = @modSymbols2Bits;
 
 end
 
@@ -288,7 +288,7 @@ pattern = findPattern(k,p,q,j);
 out     = inpt(idx);
 end
 
-function symbls = bits2Symbols(inpt,M,qam_psk)
+function symbls = bits2ModSymbols(inpt,M,qam_psk)
 
 if nargin == 1
   M = 4;
@@ -307,7 +307,7 @@ end
 
 end
 
-function bits = symbols2Bits(inpt,M,qam_psk)
+function bits = modSymbols2Bits(inpt,M,qam_psk)
 
 if nargin == 1
   M = 4;

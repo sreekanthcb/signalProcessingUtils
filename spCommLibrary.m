@@ -253,6 +253,7 @@ final_out = sum(out);
 end
 
 function out = turboLikeInterleaver(inpt,p,q,j)
+% source : 802.22 2011 document 9.6.2
 
 inpt    = inpt(:).';
 k       = length(inpt);
@@ -262,9 +263,10 @@ out     = inpt(pattern);
 end
 
 function pattern = findPattern(k,p,q,j)
+% a utility function for turbolike interleaver/deinterleaver
+
 pattern = 1:k;
 
-% source : 802.22 2011 document 9.6.2
 for itr = 1:j
     for idx = 1:k
         pattern(idx) = mod(k-p+idx+q*p*mod(-idx-p*pattern(idx),k),k);
@@ -276,7 +278,6 @@ pattern  = pattern + 1;
 end
 
 function out = turboLikeDeInterleaver(inpt,p,q,j)
-
 % source : 802.22 2011 document 9.6.2
 
 inpt    = inpt(:).';
@@ -298,9 +299,9 @@ end
 
 msgs    = bits2Msg(inpt,log2(M));
 
-if strcmp(qam_psk,'qam')
+if strcmpi(qam_psk,'qam')
   symbls = qammod(msgs,M);
-elseif strcmp(qam_psk,'psk')
+elseif strcmpi(qam_psk,'psk')
   symbls = pskmod(msgs,M);
 end
 
@@ -316,9 +317,9 @@ elseif nargin == 2
 end
 
 
-if strcmp(qam_psk,'qam')
+if strcmpi(qam_psk,'qam')
   msgs = qamdemod(inpt,M);
-elseif strcmp(qam_psk,'psk')
+elseif strcmpi(qam_psk,'psk')
   msgs = pskdemod(inpt,M);
 end
 

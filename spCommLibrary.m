@@ -17,6 +17,8 @@ function libHandle = spCommLibrary
   libHandle.PolyPhaseInterpolator     = @PolyPhaseInterpolator;
   libHandle.PolyPhaseDecimator        = @PolyPhaseDecimator;
   libHandle.findEVM                   = @findEVM;
+  libHandle.bits2Symbols              = @bits2Symbols;
+  libHandle.symbols2Bits              = @symbols2Bits;
 
 end
 
@@ -24,7 +26,7 @@ end
 function msg = bits2Msg(bits,nBitsPerMsg)
 
 if nargin == 1
-    nBitsPerMsg = 8;
+    nBitsPerMsg = 4;
 end
 
 msg = bi2de(reshape(bits,nBitsPerMsg,[])','left-msb');
@@ -34,7 +36,7 @@ end
 function bits3 = msg2Bits(msg,nBitsPerMsg)
 
 if nargin == 1
-    nBitsPerMsg = 8;
+    nBitsPerMsg = 4;
 end
 
 bits1 = de2bi(msg,nBitsPerMsg,'left-msb');
@@ -283,4 +285,43 @@ pattern = findPattern(k,p,q,j);
 
 [~,idx] = sort(pattern);
 out     = inpt(idx);
+end
+
+function symbls = bits2Symbols(inpt,M,qam_psk)
+
+if nargin == 1
+  M = 4;
+  qam_psk = 'psk';
+elseif nargin == 2
+  qam_psk = 'qam';
+end
+
+msgs    = bits2Msg(inpt,log2(M));
+
+if strcmp(qam_psk,'qam')
+  symbls = qammod(msgs,M);
+elseif strcmp(qam_psk,'psk')
+  symbls = pskmod(msgs,M);
+end
+
+end
+
+function bits = symbols2Bits(inpt,M,qam_psk)
+
+if nargin == 1
+  M = 4;
+  qam_psk = 'psk';
+elseif nargin == 2
+  qam_psk = 'qam';
+end
+
+
+if strcmp(qam_psk,'qam')
+  msgs = qamdemod(inpt,M);
+elseif strcmp(qam_psk,'psk')
+  msgs = pskdemod(inpt,M);
+end
+
+bits    = msg2Bits(msgs,log2(M));
+
 end

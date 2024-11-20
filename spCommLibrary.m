@@ -1,6 +1,6 @@
 %%==================================================================================
 % Synopsis     : Signal Processing and Communication utilities Library
-% Last updated : 2024-11-18
+% Last updated : 2024-11-20
 %%==================================================================================
 
 function libHandle = spCommLibrary
@@ -19,6 +19,8 @@ function libHandle = spCommLibrary
   libHandle.findEVM                   = @findEVM;
   libHandle.bits2ModSymbols           = @bits2ModSymbols;
   libHandle.modSymbols2Bits           = @modSymbols2Bits;
+  libHandle.linearBinaryBlockEncoder  = @linearBinaryBlockEncoder;
+  libHandle.linearBinaryBlockDecoder  = @linearBinaryBlockDecoder;
 
 end
 
@@ -324,5 +326,35 @@ elseif strcmpi(qam_psk,'psk')
 end
 
 bits    = msg2Bits(msgs,log2(M));
+
+end
+
+function encOut = linearBinaryBlockEncoder(msgBits,n,k)
+
+nParityBits = n - k;
+
+if n == 2^nParityBits-1 % hamming code
+  encOut  = encode(msgBits,n,k,'hamming/binary');
+else
+  pol     = cyclpoly(n,k);
+  parmat  = cyclgen(n,pol);
+  genmat  = gen2par(parmat);
+  encOut  = encode(msgBits,n,k,'linear/binary',genmat);
+end
+
+end
+
+function decOut = linearBinaryBlockDecoder(msgBits,n,k)
+
+nParityBits = n - k;
+
+if n == 2^nParityBits-1 % hamming code
+  decOut  = decode(msgBits,n,k,'hamming/binary');
+else
+  pol     = cyclpoly(n,k);
+  parmat  = cyclgen(n,pol);
+  genmat  = gen2par(parmat);
+  decOut  = decode(msgBits,n,k,'linear/binary',genmat);
+end
 
 end

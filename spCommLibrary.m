@@ -1,5 +1,6 @@
 %%==================================================================================
 % Synopsis     : Signal Processing and Communication utilities Library
+%              : Example usecase can be found in the accompanying testbench file
 % Last updated : 2024-11-20
 %%==================================================================================
 

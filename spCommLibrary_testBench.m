@@ -13,7 +13,7 @@ M         = 64;
 modStyle  = 'QAM';
 
 pktsize   = 64*k*log2(M);
-n_pkts    = 100;
+n_pkts    = 2000;
 
 snrVec    = [5.5:0.25:7];
 bitsinErr = zeros(size(snrVec));
@@ -45,7 +45,7 @@ for ii = 1:length(snrVec)
   end
 end
 
-berVec = bitsinErr/nBits;
+berVec    = bitsinErr/nBits;
 
 semilogy(snrVec,berVec,'-r*');
 xlabel('SNR');ylabel('BER');
